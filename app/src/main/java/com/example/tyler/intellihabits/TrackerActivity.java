@@ -28,37 +28,28 @@ public class TrackerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracker);
         Toast.makeText(getApplicationContext(),"tracker",Toast.LENGTH_SHORT).show();
-
-        //Log.v(TAG, "Inside onCreate");
-        ArrayList<Double> location = getLocation();
-
-        for(Double d: location){
-          //  Log.v(TAG, "Logging locations: ");
-            //Log.v(TAG, " " + d + " ");
-            Toast.makeText(getApplicationContext(),""+d,Toast.LENGTH_SHORT).show();
-        }
     }
 
-    public ArrayList <Double> getLocation()
-    {
-        // Get the location manager
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String bestProvider = locationManager.getBestProvider(criteria, false);
-        Location location = locationManager.getLastKnownLocation(bestProvider);
-        Double lat,lon;
-        ArrayList<Double> aList = new ArrayList<>();
-        try {
-            lat = location.getLatitude ();
-            lon = location.getLongitude();
-            aList.add(lat);
-            aList.add(lon);
-        }
-        catch (NullPointerException e){
-            e.printStackTrace();
-            return null;
-        }
-        return aList;
-    }
+//    public ArrayList <Double> getLocation()
+//    {
+//        // Get the location manager
+//        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        Criteria criteria = new Criteria();
+//        String bestProvider = locationManager.getBestProvider(criteria, false);
+//        Location location = locationManager.getLastKnownLocation(bestProvider);
+//        Double lat,lon;
+//        ArrayList<Double> aList = new ArrayList<>();
+//        try {
+//            lat = location.getLatitude ();
+//            lon = location.getLongitude();
+//            aList.add(lat);
+//            aList.add(lon);
+//        }
+//        catch (NullPointerException e){
+//            e.printStackTrace();
+//            return null;
+//        }
+//        return aList;
+//    }
 
 }

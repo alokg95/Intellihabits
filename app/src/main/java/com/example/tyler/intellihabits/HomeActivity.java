@@ -24,8 +24,6 @@ public class HomeActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_STUDY = 2;
     private static final int REQUEST_CODE_TRACKER = 3;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         mTrackerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=StudyActivity.newIntent(HomeActivity.this);
+                Intent i=TrackerActivity.newIntent(HomeActivity.this);
                 startActivityForResult(i,REQUEST_CODE_TRACKER);
 
             }
