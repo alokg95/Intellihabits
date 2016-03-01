@@ -19,10 +19,10 @@ public class HomeActivity extends AppCompatActivity {
     private Button mStudyButton;
     private Button mTrackerButton;
 
-    private static final int REQUEST_CODE_WATER = 0;
-    private static final int REQUEST_CODE_GYM = 1;
-    private static final int REQUEST_CODE_STUDY = 2;
-    private static final int REQUEST_CODE_TRACKER = 3;
+    private static final int REQUEST_CODE_WATER = 1;
+    private static final int REQUEST_CODE_GYM = 2;
+    private static final int REQUEST_CODE_STUDY = 3;
+    private static final int REQUEST_CODE_TRACKER = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
