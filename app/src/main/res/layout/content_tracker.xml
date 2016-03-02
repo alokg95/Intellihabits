@@ -37,7 +37,26 @@
         android:layout_height="wrap_content"
         android:id="@+id/tvLocation"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="134dp"
+        android:layout_marginBottom="250dp"
          />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:hint="Enter Time Interval in minutes"
+        android:inputType="number"
+        android:id="@+id/timeinterval_text"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_toRightOf="@+id/timeinterval_text"
+        android:text="Update"
+        android:id="@+id/update_button"/>
+
 
 </RelativeLayout>

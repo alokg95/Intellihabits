@@ -1,13 +1,17 @@
 package com.example.tyler.intellihabits;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -20,6 +24,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class TrackerActivity extends Activity implements
@@ -28,8 +33,9 @@ public class TrackerActivity extends Activity implements
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "TrackerActivity";
-    private static final long INTERVAL = 1000 * 10;
-    private static final long FASTEST_INTERVAL = 1000 * 5;
+    private static  final long  INTERVAL = 1000 * 10*3;
+    private static  final long  FASTEST_INTERVAL = 1000 * 10;
+
     Button btnFusedLocation;
     TextView tvLocation;
     LocationRequest mLocationRequest;
@@ -37,9 +43,68 @@ public class TrackerActivity extends Activity implements
     Location mCurrentLocation;
     String mLastUpdateTime;
 
+    Vibrator v;
+    private float lat_old;
+    private float long_old;
+    private float distance = 0;
+    private int counter = 0;
+    private int counter_amount = 5;
+    private int timeinterval= 6* 10 * 1000;
+    float [] distance_and = {0};
+    int distance_thresh = 5;
+    EditText mEditTextInterval;
+    Button mButtonUpdate;
+    AlertDialog dialog;
+
     public static Intent newIntent(Context packageContext){
         Intent i= new Intent(packageContext,TrackerActivity.class);
         return i;
+    }
+
+    public void buildDialogCheck(){
+        final CharSequence[] items = {"WaterBottle","Wallet","Keys"};
+        final ArrayList selectedItems = new ArrayList();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Check the items you have with you");
+        builder.setMultiChoiceItems(items, null,
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked){
+                            selectedItems.add(which);
+                        }
+                        else if (selectedItems.contains(which)){
+                            selectedItems.remove(Integer.valueOf(which));
+                        }
+                    }
+                })
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        dialog = builder.create();
+
+    }
+
+    public static float distFrom(float lat1, float lng1, float lat2, float lng2){
+        double earthRadius = 6371000;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                   Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                   Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+        float dist = (float) (earthRadius * c);
+        return dist;
     }
 
     protected void createLocationRequest() {
@@ -57,6 +122,7 @@ public class TrackerActivity extends Activity implements
         if (!isGooglePlayServicesAvailable()) {
             finish();
         }
+        buildDialogCheck();
         createLocationRequest();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
@@ -65,6 +131,7 @@ public class TrackerActivity extends Activity implements
                 .build();
 
         setContentView(R.layout.activity_tracker);
+        v= (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         tvLocation = (TextView) findViewById(R.id.tvLocation);
 
         btnFusedLocation = (Button) findViewById(R.id.btnShowLocation);
@@ -74,6 +141,24 @@ public class TrackerActivity extends Activity implements
                 updateUI();
             }
         });
+
+        mEditTextInterval = (EditText) findViewById(R.id.timeinterval_text);
+
+        mButtonUpdate = (Button) findViewById(R.id.update_button);
+        mButtonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mEditTextInterval.getText().toString() !=null) {
+                    timeinterval = Integer.parseInt(mEditTextInterval.getText().toString()) * 60 * 1000;
+                    counter_amount = (int) timeinterval / (int) INTERVAL;
+                    counter = 0;
+                    updateUI();
+                }
+            }
+        });
+
+
+
 
     }
 
@@ -128,9 +213,54 @@ public class TrackerActivity extends Activity implements
     @Override
     public void onLocationChanged(Location location) {
         Log.d(TAG, "Firing onLocationChanged..............................................");
-        mCurrentLocation = location;
-        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        updateUI();
+
+
+        if (lat_old != 0 && long_old !=0) {
+
+            //distance = distFrom(lat_old, long_old, (float) location.getLatitude(), (float) location.getLongitude());
+            Location.distanceBetween((double)lat_old,(double)long_old,(double)location.getLatitude(),(double)location.getLongitude(),distance_and);
+            distance=distance_and[0];
+            //distance = Math.abs(distance);
+
+            if (distance < 10) {
+                counter = counter + 1;
+                lat_old = (float) location.getLatitude();
+                long_old = (float) location.getLongitude();
+               // updateUI();
+
+            }
+            else if (distance > distance_thresh && counter < counter_amount ){
+                counter = 0;
+                lat_old = (float) location.getLatitude();
+                long_old = (float) location.getLongitude();
+                //updateUI();
+
+            }
+            else if (distance > distance_thresh && counter >= counter_amount ){
+                mCurrentLocation = location;
+                mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+                updateUI();
+                counter = 0;
+                lat_old = (float) location.getLatitude();
+                long_old = (float) location.getLongitude();
+                v.vibrate(400);
+                dialog.show();
+
+            }
+
+        }
+        if (lat_old ==0 && long_old ==0) {
+            lat_old = (float) location.getLatitude();
+            long_old = (float) location.getLongitude();
+            mCurrentLocation = location;
+            mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+            updateUI();
+        }
+
+
+//        mCurrentLocation = location;
+//        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+//        updateUI();
     }
 
     private void updateUI() {
@@ -142,7 +272,10 @@ public class TrackerActivity extends Activity implements
                     "Latitude: " + lat + "\n" +
                     "Longitude: " + lng + "\n" +
                     "Accuracy: " + mCurrentLocation.getAccuracy() + "\n" +
-                    "Provider: " + mCurrentLocation.getProvider());
+                    "Provider: " + mCurrentLocation.getProvider() + "\n" +
+                    "Distance:"  + distance + "\n" +
+                    "Counter:" + counter + "\n" +
+                    "Counter Amount: " + counter_amount);
         } else {
             Log.d(TAG, "location is null ...............");
         }
