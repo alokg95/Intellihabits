@@ -9,4 +9,7 @@
     <string name="title_activity_study">StudyActivity</string>
     <string name="title_activity_tracker">TrackerActivity</string>
     <string name="tracker_button">Item Tracker</string>
+    <string name="add_image">Add Image</string>
+    <string name="title_activity_display_image">DisplayImage</string>
+    <string name="image_information">Image Information</string>
 </resources>
