@@ -33,7 +33,7 @@ public class TrackerActivity extends Activity implements
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "TrackerActivity";
-    private static  final long  INTERVAL = 1000 * 10*3;
+    private static  final long  INTERVAL = 1000 * 10*60;
     private static  final long  FASTEST_INTERVAL = 1000 * 10;
 
     Button btnFusedLocation;
@@ -51,10 +51,11 @@ public class TrackerActivity extends Activity implements
     private int counter_amount = 5;
     private int timeinterval= 6* 10 * 1000;
     float [] distance_and = {0};
-    int distance_thresh = 5;
+    int distance_thresh = 50;
     EditText mEditTextInterval;
     Button mButtonUpdate;
     AlertDialog dialog;
+    private int onCreateCounter = 0;
 
     public static Intent newIntent(Context packageContext){
         Intent i= new Intent(packageContext,TrackerActivity.class);
@@ -110,7 +111,7 @@ public class TrackerActivity extends Activity implements
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        //mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
@@ -123,7 +124,11 @@ public class TrackerActivity extends Activity implements
             finish();
         }
         buildDialogCheck();
-        createLocationRequest();
+        if (onCreateCounter==0) {
+            onCreateCounter = onCreateCounter + 1;
+            createLocationRequest();
+        }
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
@@ -139,6 +144,7 @@ public class TrackerActivity extends Activity implements
             @Override
             public void onClick(View arg0) {
                 updateUI();
+                createLocationRequest();
             }
         });
 
@@ -152,6 +158,7 @@ public class TrackerActivity extends Activity implements
                     timeinterval = Integer.parseInt(mEditTextInterval.getText().toString()) * 60 * 1000;
                     counter_amount = (int) timeinterval / (int) INTERVAL;
                     counter = 0;
+                    createLocationRequest();
                     updateUI();
                 }
             }
@@ -165,8 +172,8 @@ public class TrackerActivity extends Activity implements
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart fired ..............");
         mGoogleApiClient.connect();
+        Log.d(TAG, "onStart fired ..............");
     }
 
     @Override
@@ -222,18 +229,19 @@ public class TrackerActivity extends Activity implements
             distance=distance_and[0];
             //distance = Math.abs(distance);
 
-            if (distance < 10) {
+            if (distance < distance_thresh) {
                 counter = counter + 1;
                 lat_old = (float) location.getLatitude();
                 long_old = (float) location.getLongitude();
-               // updateUI();
+                updateUI();
 
             }
             else if (distance > distance_thresh && counter < counter_amount ){
+                updateUI();
                 counter = 0;
                 lat_old = (float) location.getLatitude();
                 long_old = (float) location.getLongitude();
-                //updateUI();
+
 
             }
             else if (distance > distance_thresh && counter >= counter_amount ){
@@ -241,6 +249,7 @@ public class TrackerActivity extends Activity implements
                 mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
                 updateUI();
                 counter = 0;
+                distance = 0;
                 lat_old = (float) location.getLatitude();
                 long_old = (float) location.getLongitude();
                 v.vibrate(400);
