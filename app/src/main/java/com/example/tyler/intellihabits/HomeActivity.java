@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         mGymButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=GymActivity.newIntent(HomeActivity.this);
+                Intent i=GymActivityReal.newIntent(HomeActivity.this);
                 startActivityForResult(i,REQUEST_CODE_GYM);
             }
         });
