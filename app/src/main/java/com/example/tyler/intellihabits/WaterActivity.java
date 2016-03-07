@@ -40,18 +40,26 @@ public class WaterActivity extends ActionBarActivity {
     private ListView listView;
     private Uri mCapturedImageURI;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int RESULT_LOAD_IMAGE = 0;
     private double total_oz = 0;
     private double waterbottlecount = 0;
     private DAOdb mdaOdb;
 
+
     private static final String TAG = "WaterActivity";
 
+    public double getTotal_oz(){
+        return total_oz;
+    }
 
+    public double getWaterbottlecount(){
+        return waterbottlecount;
+    }
     public static Intent newIntent(Context packageContext) {
         Intent i = new Intent(packageContext, WaterActivity.class);
         return i;
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +86,10 @@ public class WaterActivity extends ActionBarActivity {
                 Log.d(TAG, "On startactivity");
 
 
-
             }
         });
         initDB();
+        waterbottlecount = listView.getChildCount();
     }
 
     private void initDB() {
@@ -111,7 +119,7 @@ public class WaterActivity extends ActionBarActivity {
                     @Override
                     public void onClick(View v) {
                         total_oz = total_oz + (double) Integer.parseInt(mEditText_water.getText().toString());
-                        waterbottlecount = waterbottlecount + 1;
+                        waterbottlecount = listView.getChildCount() + 1;
                         activeTakePhoto();
                         dialog.dismiss();
                     }
@@ -191,6 +199,7 @@ public class WaterActivity extends ActionBarActivity {
         if (mCapturedImageURI != null) {
             outState.putString("mCapturedImageURI",
                     mCapturedImageURI.toString());
+
         }
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(outState);
@@ -206,6 +215,7 @@ public class WaterActivity extends ActionBarActivity {
             mCapturedImageURI = Uri.parse(
                     savedInstanceState.getString("mCapturedImageURI"));
         }
+
     }
 
 
@@ -213,5 +223,14 @@ public class WaterActivity extends ActionBarActivity {
     public void onStart() {
         super.onStart();
         Log.d(TAG, "On start");
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+//        Intent i = getIntent();
+//        i.putExtra("water_oz",(int)total_oz);
+//        setResult(RESULT_OK,i);
+//        finish();
     }
 }

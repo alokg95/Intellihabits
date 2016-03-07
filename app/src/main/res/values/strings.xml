@@ -13,4 +13,5 @@
     <string name="title_activity_display_image">DisplayImage</string>
     <string name="image_information">Image Information</string>
     <string name="title_activity_gym_activity_real">GymActivity</string>
+    <string name="title_activity_water_activity_main">WaterActivityMain</string>
 </resources>

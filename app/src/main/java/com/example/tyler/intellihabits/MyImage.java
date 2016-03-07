@@ -102,7 +102,7 @@ public class MyImage {
      */
     public String getPath() { return path; }
     @Override public String toString() {
-        return "Title: " + title + "   " + df.format(getDatetime().getTime()) +
+        return "Title: " + title + "\n" + df.format(getDatetime().getTime()) +
                 "\n" + description;
     }
 }

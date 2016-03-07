@@ -36,8 +36,9 @@ public class HomeActivity extends AppCompatActivity {
         mWaterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = WaterActivity.newIntent(HomeActivity.this);
+                Intent i = WaterActivityMain.newIntent(HomeActivity.this);
                 startActivityForResult(i, REQUEST_CODE_WATER);
+
 
             }
         });

@@ -33,7 +33,7 @@ public class TrackerActivity extends Activity implements
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "TrackerActivity";
-    private static  final long  INTERVAL = 1000 * 10*60;
+    private static  final long  INTERVAL = 1000 * 10;
     private static  final long  FASTEST_INTERVAL = 1000 * 10;
 
     Button btnFusedLocation;
@@ -49,7 +49,7 @@ public class TrackerActivity extends Activity implements
     private float distance = 0;
     private int counter = 0;
     private int counter_amount = 5;
-    private int timeinterval= 6* 10 * 1000;
+    private int timeinterval= 2* 10 * 1000;
     float [] distance_and = {0};
     int distance_thresh = 50;
     EditText mEditTextInterval;
