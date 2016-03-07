@@ -14,9 +14,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import com.google.gson.Gson;
+
+
+
 
 import java.util.ArrayList;
 
@@ -27,8 +32,10 @@ public class WaterActivity extends ActionBarActivity {
     private ListView listView;
     private Uri mCapturedImageURI;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int RESULT_LOAD_IMAGE = 0;
     private double total_oz = 0;
     private double waterbottlecount=0;
+    private DAOdb mdaOdb;
 
     public static Intent newIntent(Context packageContext){
         Intent i= new Intent(packageContext,WaterActivity.class);
@@ -47,10 +54,17 @@ public class WaterActivity extends ActionBarActivity {
         // Attach the adapter to a ListView
         listView = (ListView) findViewById(R.id.main_list_view);
         listView.setAdapter(imageAdapter);
-
-
+        //addItemClickListener(listView);
+        initDB();
     }
 
+    private void initDB() {
+        mdaOdb = new DAOdb(this);
+        //        add images from database to images ArrayList
+        for (MyImage mi : mdaOdb.getImages()) {
+            images.add(mi);
+        }
+    }
     public void btnAddOnClick(View view) {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custom_dialog_box);
@@ -98,9 +112,6 @@ public class WaterActivity extends ActionBarActivity {
     }
 
 
-
-
-
     @Override protected void onActivityResult(int requestCode, int resultCode,
                                               Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -116,12 +127,49 @@ public class WaterActivity extends ActionBarActivity {
                     cursor.moveToFirst();
                     String picturePath = cursor.getString(column_index_data);
                     MyImage image = new MyImage();
-                    image.setTitle("Water Bottle #" + waterbottlecount);
+                    image.setTitle("Waterbottle #"+waterbottlecount);
                     image.setDescription(
-                            "You have consumed " + total_oz + "oz of water!!");
+                            "You have consumed " +total_oz +"oz of water!!");
                     image.setDatetime(System.currentTimeMillis());
                     image.setPath(picturePath);
                     images.add(image);
+                    mdaOdb.addImage(image);
                 }
         }
+
+
+//    private void addItemClickListener(final ListView listView) {
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override public void onItemClick(AdapterView<?> parent, View view,
+//                                              int position, long id) {
+//
+//                MyImage image = (MyImage) listView.getItemAtPosition(position);
+//                Intent intent =
+//                        new Intent(getBaseContext(), DisplayImage.class);
+//                intent.putExtra("IMAGE", (new Gson()).toJson(image));
+//                startActivity(intent);
+//            }
+//        });
+//    }
+
+    @Override protected void onSaveInstanceState(Bundle outState) {
+        // Save the user's current game state
+        if (mCapturedImageURI != null) {
+            outState.putString("mCapturedImageURI",
+                    mCapturedImageURI.toString());
+        }
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(outState);
     }
+
+    @Override protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can restore the view hierarchy
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // Restore state members from saved instance
+        if (savedInstanceState.containsKey("mCapturedImageURI")) {
+            mCapturedImageURI = Uri.parse(
+                    savedInstanceState.getString("mCapturedImageURI"));
+        }
+    }
+}

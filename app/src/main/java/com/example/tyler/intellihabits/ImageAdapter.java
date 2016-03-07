@@ -16,6 +16,7 @@ import java.util.ArrayList;
  * Created by Tyler on 3/2/2016.
  */
 public class ImageAdapter extends ArrayAdapter<MyImage> {
+    private final int THUMBSIZE = 250;
 
     /**
      * applying ViewHolder pattern to speed up ListView, smoother and faster
@@ -53,9 +54,6 @@ public class ImageAdapter extends ArrayAdapter<MyImage> {
         // set description text
         viewHolder.description.setText(image.toString());
         // set image icon
-        final int THUMBSIZE = 300;
-        //        viewHolder.imgIcon.setImageURI(Uri.fromFile(new File(image
-        // .getPath())));
         viewHolder.imgIcon.setImageBitmap(ThumbnailUtils
                 .extractThumbnail(BitmapFactory.decodeFile(image.getPath()),
                         THUMBSIZE, THUMBSIZE));
