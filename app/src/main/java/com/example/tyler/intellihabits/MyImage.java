@@ -8,9 +8,30 @@ import java.util.Calendar;
  */
 public class MyImage {
     private String title, description, path;
-    private Calendar datetime;
     private long datetimeLong;
-    protected SimpleDateFormat df = new SimpleDateFormat("MMMM d, yy  h:mm");
+    private SimpleDateFormat df = new SimpleDateFormat("MMMM d, yy  h:mm");
+    private SimpleDateFormat cf = new SimpleDateFormat("MMMM d, yy");
+    private double water_oz;
+
+    public MyImage(String title, String description, String path,
+                   long datetimeLong) {
+        this.title = title;
+        this.description = description;
+        this.path = path;
+        this.datetimeLong = datetimeLong;
+
+    }
+
+    public double getWater_oz(){
+        return water_oz;
+    }
+
+    public void setWater_oz(double water_oz){
+        this.water_oz = water_oz;
+    }
+
+    public MyImage() {
+    }
 
     /**
      * Gets title.
@@ -24,7 +45,11 @@ public class MyImage {
      *
      * @return Value of datetime.
      */
-    public Calendar getDatetime() { return datetime; }
+    public Calendar getDatetime() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(datetimeLong);
+        return cal;
+    }
 
     /**
      * Sets new datetimeLong.
@@ -33,9 +58,6 @@ public class MyImage {
      */
     public void setDatetime(long datetimeLong) {
         this.datetimeLong = datetimeLong;
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(datetimeLong);
-        this.datetime = cal;
     }
 
     /**
@@ -43,7 +65,9 @@ public class MyImage {
      *
      * @param datetime New value of datetime.
      */
-    public void setDatetime(Calendar datetime) { this.datetime = datetime; }
+    public void setDatetime(Calendar datetime) {
+        this.datetimeLong = datetime.getTimeInMillis();
+    }
 
     /**
      * Gets description.
@@ -88,9 +112,8 @@ public class MyImage {
      * @return Value of path.
      */
     public String getPath() { return path; }
-
     @Override public String toString() {
-        return "Title:" + title + "   " + df.format(datetime.getTime()) +
+        return "Title: " + title + "\n" + df.format(getDatetime().getTime()) +
                 "\n" + description;
     }
 }
