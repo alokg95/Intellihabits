@@ -2,6 +2,7 @@ package com.example.tyler.intellihabits;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,6 +31,7 @@ public class StudyActivity extends AppCompatActivity {
     public static String endTime = "";
     Button btnStudy;
     TextView studyText;
+    AudioManager am;
 
 
 
@@ -70,7 +73,9 @@ public class StudyActivity extends AppCompatActivity {
         changeButtonState();
         DateFormat df = new SimpleDateFormat("HH:mm");
         startTime = df.format(Calendar.getInstance().getTime());
-
+        am = (AudioManager) getBaseContext().getSystemService(Context.AUDIO_SERVICE);
+        am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+        Toast.makeText(getApplicationContext(), "Phone is now in silent mode", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -78,6 +83,8 @@ public class StudyActivity extends AppCompatActivity {
         changeButtonState();
         DateFormat df = new SimpleDateFormat("HH:mm");
         endTime = df.format(Calendar.getInstance().getTime());
+        am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+        Toast.makeText(getApplicationContext(), "Silent mode is off", Toast.LENGTH_SHORT).show();
         updateHoursStudied(startTime, endTime);
     }
 
