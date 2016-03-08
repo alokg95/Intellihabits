@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,7 +24,9 @@ public class WaterActivityMain extends AppCompatActivity {
     WaterActivity mWaterActivity;
     private PendingIntent pendingIntent;
     double total_oz;
+    boolean helper = true;
 
+    public static final String PREF_FILE_NAME = "MyAppPreferences";
     private static final int OPEN_WATER_ACTIVITY = 2;
 
 
@@ -93,6 +96,19 @@ public class WaterActivityMain extends AppCompatActivity {
         manager.cancel(pendingIntent);
         Toast.makeText(this,"Alarm Cancel",Toast.LENGTH_SHORT).show();
 
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (helper){
+            final SharedPreferences mPrefs = getSharedPreferences(PREF_FILE_NAME,MODE_PRIVATE);
+
+            final String pleasework = mPrefs.getString("total_oz",null);
+            if (pleasework !=null){
+                total_oz = (double)Integer.parseInt(pleasework);
+                mWaterText.setText("Today, you have consumed " + total_oz + " of water!!!!");
+            }
+        }
     }
 
 

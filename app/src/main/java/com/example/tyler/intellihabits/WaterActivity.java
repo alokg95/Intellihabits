@@ -20,6 +20,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 
 
@@ -117,11 +119,16 @@ public class WaterActivity extends ActionBarActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        water_oz = (double) Integer.parseInt(mEditText_water.getText().toString());
-                        total_oz = total_oz + water_oz;
-                        waterbottlecount = listView.getChildCount() + 1;
-                        activeTakePhoto();
-                        dialog.dismiss();
+                        if (mEditText_water.getText() != null) {
+                            water_oz = (double) Integer.parseInt(mEditText_water.getText().toString());
+                            total_oz = total_oz + water_oz;
+                            waterbottlecount = listView.getChildCount() + 1;
+                            activeTakePhoto();
+                            dialog.dismiss();
+                        }
+                        else
+                            Toast.makeText(WaterActivity.this,"Enter amount of water!",Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
