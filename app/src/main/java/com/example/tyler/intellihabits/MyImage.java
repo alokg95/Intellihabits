@@ -10,6 +10,8 @@ public class MyImage {
     private String title, description, path;
     private long datetimeLong;
     private SimpleDateFormat df = new SimpleDateFormat("MMMM d, yy  h:mm");
+    private SimpleDateFormat cf = new SimpleDateFormat("MMMM d, yy");
+    private double water_oz;
 
     public MyImage(String title, String description, String path,
                    long datetimeLong) {
@@ -17,6 +19,15 @@ public class MyImage {
         this.description = description;
         this.path = path;
         this.datetimeLong = datetimeLong;
+
+    }
+
+    public double getWater_oz(){
+        return water_oz;
+    }
+
+    public void setWater_oz(double water_oz){
+        this.water_oz = water_oz;
     }
 
     public MyImage() {

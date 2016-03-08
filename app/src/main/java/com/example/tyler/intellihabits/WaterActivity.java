@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,17 +44,14 @@ public class WaterActivity extends ActionBarActivity {
     private double total_oz = 0;
     private double waterbottlecount = 0;
     private DAOdb mdaOdb;
+    private double water_oz;
 
 
     private static final String TAG = "WaterActivity";
+    public static final String PREF_FILE_NAME = "MyAppPreferences";
+    private boolean helper = true;
 
-    public double getTotal_oz(){
-        return total_oz;
-    }
 
-    public double getWaterbottlecount(){
-        return waterbottlecount;
-    }
     public static Intent newIntent(Context packageContext) {
         Intent i = new Intent(packageContext, WaterActivity.class);
         return i;
@@ -81,6 +79,7 @@ public class WaterActivity extends ActionBarActivity {
                 Intent intent =
                         new Intent(getBaseContext(), GymActivity.class);
                 intent.putExtra("IMAGE", (new Gson()).toJson(image));
+                //total_oz = total_oz - image.getWater_oz();
                 Log.d(TAG, "On intent");
                 startActivity(intent);
                 Log.d(TAG, "On startactivity");
@@ -118,7 +117,8 @@ public class WaterActivity extends ActionBarActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        total_oz = total_oz + (double) Integer.parseInt(mEditText_water.getText().toString());
+                        water_oz = (double) Integer.parseInt(mEditText_water.getText().toString());
+                        total_oz = total_oz + water_oz;
                         waterbottlecount = listView.getChildCount() + 1;
                         activeTakePhoto();
                         dialog.dismiss();
@@ -169,6 +169,7 @@ public class WaterActivity extends ActionBarActivity {
                     "You have consumed " + total_oz + "oz of water!!");
             image.setDatetime(System.currentTimeMillis());
             image.setPath(picturePath);
+            image.setWater_oz(water_oz);
             images.add(image);
             mdaOdb.addImage(image);
         }
@@ -228,9 +229,25 @@ public class WaterActivity extends ActionBarActivity {
     @Override
     public void onPause(){
         super.onPause();
-//        Intent i = getIntent();
-//        i.putExtra("water_oz",(int)total_oz);
-//        setResult(RESULT_OK,i);
-//        finish();
+        if (total_oz != 0) {
+            final SharedPreferences.Editor ed = getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE).edit();
+            ed.putString("total_oz", Integer.toString((int) total_oz));
+
+            ed.apply();
+        }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (helper){
+            final SharedPreferences mPrefs = getSharedPreferences(PREF_FILE_NAME,MODE_PRIVATE);
+
+            final String pleasework = mPrefs.getString("total_oz",null);
+            if (pleasework !=null){
+                total_oz = (double)Integer.parseInt(pleasework);
+            }
+
+        }
     }
 }

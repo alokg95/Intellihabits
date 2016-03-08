@@ -37,6 +37,7 @@ public class WaterActivityMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_water_activity_main);
 
+
         Intent alarmIntent = new Intent(WaterActivityMain.this,AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(WaterActivityMain.this, 0, alarmIntent, 0);
 
@@ -65,20 +66,18 @@ public class WaterActivityMain extends AppCompatActivity {
         });
         mWaterText = (TextView)findViewById(R.id.water_text);
         mWaterActivity = new WaterActivity();
-//        if (mWaterActivity.getWaterbottlecount() != 0){
-//            mWaterText.setText("Today, you have consumed "+mWaterActivity.getTotal_oz()+" of water!!!!");
+//        Toast.makeText(this,Integer.toString((int)mWaterActivity.total_oz),Toast.LENGTH_SHORT).show();
+//
+//
+//        mWaterText.setText("Today, you have consumed "+mWaterActivity.total_oz+" of water!!!!");
         }
 
 //    @Override
-//    protected void onActivityResult(int requestCode, int resultCode,
-//                                    Intent data) {
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        if (requestCode == OPEN_WATER_ACTIVITY && resultCode == RESULT_OK){
 //            total_oz= data.getExtras().getInt(("water_oz"));
-//            if (mWaterActivity.getWaterbottlecount() != 0) {
-//                mWaterText.setText("Today, you have consumed " + mWaterActivity.getTotal_oz() + " of water!!!!");
-//            }
+//                mWaterText.setText("Today, you have consumed " + mWaterActivity.total_oz + " of water!!!!");
 //        }
-//
 //    }
 
     public void start(){
