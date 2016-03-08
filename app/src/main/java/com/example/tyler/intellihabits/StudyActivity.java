@@ -88,7 +88,7 @@ public class StudyActivity extends AppCompatActivity {
         updateHoursStudied(startTime, endTime);
     }
 
-    public void updateHoursStudied(String startTime, String endTime){
+    public void updateHoursStudied(String startTime, String endTime) {
         int startMinutes;
         int endMinutes;
         int startHour = 0;
@@ -133,6 +133,23 @@ public class StudyActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart fired in " + TAG);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop fired ..............");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "OnResume fired ............");
     }
 
 }
