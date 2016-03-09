@@ -20,6 +20,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 
 
@@ -33,6 +35,7 @@ import com.google.gson.Gson;
  */
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class WaterActivity extends ActionBarActivity {
 
@@ -45,6 +48,8 @@ public class WaterActivity extends ActionBarActivity {
     private double waterbottlecount = 0;
     private DAOdb mdaOdb;
     private double water_oz;
+    private int today_date = 0;
+    private int yesterday = 0 ;
 
 
     private static final String TAG = "WaterActivity";
@@ -117,11 +122,16 @@ public class WaterActivity extends ActionBarActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        water_oz = (double) Integer.parseInt(mEditText_water.getText().toString());
-                        total_oz = total_oz + water_oz;
-                        waterbottlecount = listView.getChildCount() + 1;
-                        activeTakePhoto();
-                        dialog.dismiss();
+                        if (mEditText_water.getText() != null) {
+                            water_oz = (double) Integer.parseInt(mEditText_water.getText().toString());
+                            total_oz = total_oz + water_oz;
+                            waterbottlecount = listView.getChildCount() + 1;
+                            activeTakePhoto();
+                            dialog.dismiss();
+                        }
+                        else
+                            Toast.makeText(WaterActivity.this,"Enter amount of water!",Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
@@ -227,11 +237,18 @@ public class WaterActivity extends ActionBarActivity {
     }
 
     @Override
+
     public void onPause(){
         super.onPause();
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        Toast.makeText(this, Integer.toString(day), Toast.LENGTH_SHORT).show();
+
+
         if (total_oz != 0) {
             final SharedPreferences.Editor ed = getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE).edit();
             ed.putString("total_oz", Integer.toString((int) total_oz));
+            ed.putString("day", Integer.toString(day));
 
             ed.apply();
         }
@@ -242,10 +259,23 @@ public class WaterActivity extends ActionBarActivity {
         super.onResume();
         if (helper){
             final SharedPreferences mPrefs = getSharedPreferences(PREF_FILE_NAME,MODE_PRIVATE);
+            final String date = mPrefs.getString("day", null);
+            Toast.makeText(this, date, Toast.LENGTH_SHORT).show();
+
 
             final String pleasework = mPrefs.getString("total_oz",null);
             if (pleasework !=null){
                 total_oz = (double)Integer.parseInt(pleasework);
+            }
+            if (date != null){
+                today_date = Integer.parseInt(date);
+                if (yesterday != 0) {
+                    if (today_date != yesterday){
+                        total_oz = 0;
+                    }
+                }
+                yesterday = today_date;
+
             }
 
         }
