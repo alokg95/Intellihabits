@@ -141,7 +141,8 @@ public class HomeActivity extends AppCompatActivity {
         final String pleasework = mPrefs.getString("total_oz",null);
         if (pleasework !=null){
             total_oz = (double)Integer.parseInt(pleasework);
-            water_text.setText(pleasework);
+            String entire = "Drank " + pleasework + " ounces of water";
+            water_text.setText(entire);
         }
 
 

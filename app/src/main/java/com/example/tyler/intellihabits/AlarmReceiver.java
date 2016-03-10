@@ -21,8 +21,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("IMPORTANT!!!!!!")
-                .setContentText("Open Intellihabits and Drink Water!!!!!!");
+                .setContentTitle("Intellihabits Reminder")
+                .setContentText("You haven't recently drank water. Stay hydrated, drink up!");
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(mId,mBuilder.build());

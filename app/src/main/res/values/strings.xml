@@ -14,4 +14,7 @@
     <string name="image_information">Image Information</string>
     <string name="title_activity_gym_activity_real">GymActivity</string>
     <string name="title_activity_water_activity_main">WaterActivityMain</string>
+    <string name="gym_location"><a href="https://www.google.com/maps/place/UCSB+Recreational+Sports/@34.4183004,-119.8507967,17z/data=!3m1!4b1!4m2!3m1!1s0x80e93f65175543a1:0x93574af0a21e0e70"> You have NOT visited UCSB Recreational Center today</a></string>
+    <string name="link">a<a href="http://www.google.com" >ForGet Password</a>b</string>
+
 </resources>

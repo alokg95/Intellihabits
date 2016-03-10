@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -33,6 +34,8 @@ import com.google.gson.Gson;
  * CALLED REAL GYM ACTIVITY. HOPEFULLY THIS WON'T HAPPEN AGAIN?????
  *
  */
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,7 +53,6 @@ public class WaterActivity extends ActionBarActivity {
     private double water_oz;
     private int today_date = 0;
     private int yesterday = 0 ;
-
 
     private static final String TAG = "WaterActivity";
     public static final String PREF_FILE_NAME = "MyAppPreferences";
@@ -176,7 +178,7 @@ public class WaterActivity extends ActionBarActivity {
             MyImage image = new MyImage();
             image.setTitle("Waterbottle #" + waterbottlecount);
             image.setDescription(
-                    "You have consumed " + total_oz + "oz of water!!");
+                    "You have consumed " + total_oz + "oz of water.");
             image.setDatetime(System.currentTimeMillis());
             image.setPath(picturePath);
             image.setWater_oz(water_oz);

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +57,7 @@ public class TrackerActivity extends Activity implements
     Button mButtonUpdate;
     AlertDialog dialog;
     private int onCreateCounter = 0;
+    TextView trackr;
 
     public static Intent newIntent(Context packageContext){
         Intent i= new Intent(packageContext,TrackerActivity.class);
@@ -119,6 +121,7 @@ public class TrackerActivity extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate ...............................");
+
         //show error dialog if GoolglePlayServices not available
         if (!isGooglePlayServicesAvailable()) {
             finish();
@@ -129,6 +132,8 @@ public class TrackerActivity extends Activity implements
             createLocationRequest();
         }
 
+
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
@@ -138,6 +143,7 @@ public class TrackerActivity extends Activity implements
         setContentView(R.layout.activity_tracker);
         v= (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         tvLocation = (TextView) findViewById(R.id.tvLocation);
+
 
         btnFusedLocation = (Button) findViewById(R.id.btnShowLocation);
         btnFusedLocation.setOnClickListener(new View.OnClickListener() {

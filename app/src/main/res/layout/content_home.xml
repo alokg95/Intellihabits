@@ -122,7 +122,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/water_button"
+            android:text="Hydrate"
             android:id="@+id/water"
             style="?android:attr/borderlessButtonStyle"
             android:layout_weight="1"
@@ -131,7 +131,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/gym_button"
+            android:text="Exercise"
             android:layout_weight="1"
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/gym"/>
@@ -145,7 +145,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tracker_button"
+            android:text="Track"
             android:layout_weight="1"
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/tracker"/>

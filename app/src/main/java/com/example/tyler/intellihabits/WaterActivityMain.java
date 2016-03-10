@@ -106,7 +106,7 @@ public class WaterActivityMain extends AppCompatActivity {
             final String pleasework = mPrefs.getString("total_oz",null);
             if (pleasework !=null){
                 total_oz = (double)Integer.parseInt(pleasework);
-                mWaterText.setText("Today, you have consumed " + total_oz + " of water!!!!");
+                mWaterText.setText("Consumed " + total_oz + "oz of water today");
             }
         }
     }

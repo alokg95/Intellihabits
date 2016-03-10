@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -23,6 +24,7 @@ public class GymActivity extends AppCompatActivity {
     private ImageView imageView;
     private TextView description;
     private String jstring;
+    TextView trackr;
 
     private static final String TAG = "WaterActivity";
     public static Intent newIntent(Context packageContext){
@@ -34,6 +36,9 @@ public class GymActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gym);
+        trackr = (TextView) findViewById(R.id.tracker_textView);
+        trackr.setText(Html.fromHtml("<a href=\"https://www.google.com/maps/place/UCSB+Recreational+Sports/@34.4183004,-119.8507967,17z/data=!3m1!4b1!4m2!3m1!1s0x80e93f65175543a1:0x93574af0a21e0e70\">UCSB Recreational Center</a>"));
+        trackr.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
         Log.d(TAG, "On display");
 
         imageView = (ImageView) findViewById(R.id.display_image_view);
