@@ -10,7 +10,6 @@ public class MyImage {
     private String title, description, path;
     private long datetimeLong;
     private SimpleDateFormat df = new SimpleDateFormat("MMMM d, yy  h:mm");
-    private SimpleDateFormat cf = new SimpleDateFormat("MMMM d, yy");
     private double water_oz;
 
     public MyImage(String title, String description, String path,
