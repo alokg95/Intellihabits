@@ -34,7 +34,6 @@ public class StudyActivity extends AppCompatActivity {
     AudioManager am;
 
 
-
     public static Intent newIntent(Context packageContext){
         Intent i= new Intent(packageContext,StudyActivity.class);
         return i;
@@ -55,8 +54,11 @@ public class StudyActivity extends AppCompatActivity {
             }
         });
 
-        if(studyText.getText().toString().equals("0 hours studied today")){
+        if(totalHoursStudied == 0 && totalMinutesStudied == 0){
             studyText.setText("You've studied exactly 0 hours today. Get studying!");
+        } else {
+            String study_summary = "Studied " + totalHoursStudied + " hours, " + totalMinutesStudied + " minute(s)";
+            studyText.setText(study_summary);
         }
 
     }

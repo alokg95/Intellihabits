@@ -41,7 +41,7 @@ public class WaterActivity extends ActionBarActivity {
     private ListView listView;
     private Uri mCapturedImageURI;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private double total_oz = 0;
+    public double total_oz = 0;
     private double waterbottlecount = 0;
     private DAOdb mdaOdb;
     private double water_oz;
