@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
@@ -103,28 +102,54 @@
         <!--android:background="@drawable/layer_card_background"-->
         <!--android:text="Hello Card!\nThis is an example of a card..."/>-->
 
+    <View
+        android:id="@+id/myRectangleView"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:background="@drawable/rectangle"/>
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:gravity="center"
+        android:weightSum="4"
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/water_button"
-        android:id="@+id/water"
-        />
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/gym_button"
-        android:id="@+id/gym"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/study_button"
-        android:id="@+id/study"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tracker_button"
-        android:id="@+id/tracker"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/water_button"
+            android:id="@+id/water"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gym_button"
+            android:layout_weight="1"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/gym"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/study_button"
+            android:layout_weight="1"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/study"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tracker_button"
+            android:layout_weight="1"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/tracker"/>
+    </LinearLayout>
 </LinearLayout>
+
+

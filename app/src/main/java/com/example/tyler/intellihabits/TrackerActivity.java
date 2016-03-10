@@ -165,6 +165,7 @@ public class TrackerActivity extends Activity implements
         });
 
 
+          dialog.show();
 
 
     }
@@ -308,6 +309,8 @@ public class TrackerActivity extends Activity implements
         if (mGoogleApiClient.isConnected()) {
             startLocationUpdates();
             Log.d(TAG, "Location update resumed .....................");
+            dialog.show();
+
         }
     }
 }

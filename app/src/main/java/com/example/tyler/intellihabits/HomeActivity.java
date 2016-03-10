@@ -1,6 +1,7 @@
 package com.example.tyler.intellihabits;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,8 @@ public class HomeActivity extends AppCompatActivity {
     private Button mTrackerButton;
     private TextView study_text;
     private TextView water_text;
+    public double total_oz = 0;
+    public static final String PREF_FILE_NAME = "MyAppPreferences";
 
     private int totalHoursStudied;
     private int totalMinutesStudied;
@@ -100,6 +103,12 @@ public class HomeActivity extends AppCompatActivity {
         study_text.setText(study_summary);
         String water_summary = "Drank " + wa.total_oz + " ounces of water";
         water_text.setText(water_summary);
+        final SharedPreferences mPrefs = getSharedPreferences(PREF_FILE_NAME,MODE_PRIVATE);
+        final String pleasework = mPrefs.getString("total_oz",null);
+        if (pleasework !=null){
+            total_oz = (double)Integer.parseInt(pleasework);
+            water_text.setText(pleasework);
+        }
     }
 
     @Override
@@ -127,6 +136,15 @@ public class HomeActivity extends AppCompatActivity {
         study_text.setText(study_summary);
         String water_summary = "Drank " + wa.total_oz + " ounces of water";
         water_text.setText(water_summary);
+
+        final SharedPreferences mPrefs = getSharedPreferences(PREF_FILE_NAME,MODE_PRIVATE);
+        final String pleasework = mPrefs.getString("total_oz",null);
+        if (pleasework !=null){
+            total_oz = (double)Integer.parseInt(pleasework);
+            water_text.setText(pleasework);
+        }
+
+
     }
 
     @Override
